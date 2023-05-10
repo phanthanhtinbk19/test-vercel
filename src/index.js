@@ -1,14 +1,34 @@
 import express from "express";
-import home from "./routes/home.js";
-import connectDB from "./config/connectDB.js";
-const dotenv = require("dotenv");
-dotenv.config();
-const app = express();
-app.use(express.json());
-connectDB();
-const PORT = process.env.PORT || 8000;
+import mysql from "mysql";
+import cors from "cors";
 
-app.use("/api/", home);
-app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const db = mysql.createConnection({
+	host: process.env.DB_HOST,
+	user: process.env.DB_USERNAME,
+	password: process.env.DB_PASSWORD,
+	database: process.env.DB_DATABASE_NAME,
+	port: process.env.DB_PORT,
+});
+
+app.get("/", (req, res) => {
+	res.json("hello");
+});
+
+// app.get("/books", (req, res) => {
+// 	const q = "SELECT * FROM books";
+// 	db.query(q, (err, data) => {
+// 		if (err) {
+// 			console.log(err);
+// 			return res.json(err);
+// 		}
+// 		return res.json(data);
+// 	});
+// });
+
+app.listen(8800, () => {
+	console.log("Connected to backend.");
 });
