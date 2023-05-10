@@ -1,11 +1,11 @@
 import express from "express";
 import home from "./routes/home.js";
-// import connectDB from "./config/connectDB.js";
+import connectDB from "./config/connectDB.js";
 const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
 app.use(express.json());
-// connectDB();
+connectDB();
 const PORT = process.env.PORT || 5000;
 
 app.use("/api/", home);
